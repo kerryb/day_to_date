@@ -29,12 +29,9 @@ defmodule DayToDate do
   """
   def get_date(day, leap_year?) do
     Enum.reduce_while(@months, day, fn month, remainder ->
-      length = length(month, leap_year?)
-
-      if remainder <= length do
-        {:halt, "#{month}, #{remainder}"}
-      else
-        {:cont, remainder - length}
+      case length(month, leap_year?) do
+        length when length >= remainder -> {:halt, "#{month}, #{remainder}"}
+        length -> {:cont, remainder - length}
       end
     end)
   end
